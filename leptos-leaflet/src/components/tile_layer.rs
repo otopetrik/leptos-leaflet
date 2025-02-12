@@ -12,6 +12,8 @@ pub fn TileLayer(
     #[prop(optional)] bring_to_back: bool,
     #[prop(default = 0.0)] min_zoom: f64,
     #[prop(default = 18.0)] max_zoom: f64,
+    #[prop(optional)] min_native_zoom: Option<f64>,
+    #[prop(optional)] max_native_zoom: Option<f64>,
 ) -> impl IntoView {
     let map_context = use_context::<LeafletMapContext>().expect("map context not found");
 
@@ -23,6 +25,12 @@ pub fn TileLayer(
             }
             options.set_min_zoom(min_zoom);
             options.set_max_zoom(max_zoom);
+            if let Some(min_native_zoom) = min_native_zoom {
+                options.set_min_native_zoom(min_native_zoom);
+            }
+            if let Some(max_native_zoom) = max_native_zoom {
+                options.set_max_native_zoom(max_native_zoom);
+            }
             let map_layer = leaflet::TileLayer::new_options(&url, &options);
             map_layer.add_to(&map);
 
