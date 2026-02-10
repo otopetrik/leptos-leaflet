@@ -14,6 +14,7 @@ pub fn TileLayer(
     #[prop(default = 18.0)] max_zoom: f64,
     #[prop(optional)] min_native_zoom: Option<f64>,
     #[prop(optional)] max_native_zoom: Option<f64>,
+    #[prop(optional)] cross_origin: Option<String>,
     #[prop(optional)] class: String,
 ) -> impl IntoView {
     let map_context = use_context::<LeafletMapContext>().expect("map context not found");
@@ -31,6 +32,9 @@ pub fn TileLayer(
             }
             if let Some(max_native_zoom) = max_native_zoom {
                 options.set_max_native_zoom(max_native_zoom);
+            }
+            if let Some(cross_origin) = &cross_origin {
+                options.set_cross_origin(cross_origin.to_owned());
             }
             if !class.is_empty() {
                 options.set_class_name(class.clone());
